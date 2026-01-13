@@ -2,11 +2,30 @@ Listado de alumnos del curso de Estructuras de Datos
 
 1. Ernesto Cuadros-Vargas
 2. Acevedo Lermo, Aniee
+2.
+3. Ruben Dario-Palomino
+2. Martín Caballero Chocano
+2. Alexis Gonzales
+3.
 4.
-5.
+5. Salazar Zapata, Alvaro Matias
 6.
 7.
+8.Sotelo Atuncar, Diego Alejandro
+9.
+10.
+7. Rojas Villaorduña, Aaron
+5. Alvaro Salazar
+6. Alejandro Sotelo
+7. Paolo Villavicencio
 8.
 9.
 10.
 11.
+12.
+13.
+14.
+15. Ventura Enciso, Alan
+44. Caballero Chocano Martín
+11.
+12. Gamarra Muñoz Juan Pablo
