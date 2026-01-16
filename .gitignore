@@ -1,0 +1,9 @@
+# Ignorar el ejecutable final
+main
+main.exe
+
+# Ignorar los archivos objeto temporales
+*.o
+
+# Ignorar archivos de depuración (si usas -g)
+*.dSYM/
