@@ -1,12 +1,14 @@
 #include <iostream>
 #include "util.h"
 #include "pointers.h"
+#include "containers/array.h"
 
 // g++ -std=c++17 -Wall -g -pthread main.cpp -o main
 
 int main() {
     std::cout << "Hello EDA-UNMSM!" << std::endl;
     // DemoUtil();
-    DemoPointers1();
+    // DemoPointers1();
+    DemoArray();
     return 0;
 }
