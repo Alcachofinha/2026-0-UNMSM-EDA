@@ -21,7 +21,6 @@ class ArrayIterator
     Container  *m_pContainer = nullptr;
     value_type *m_data       = nullptr;
     size_t      m_pos        = -1;
-    
   public:
     ArrayIterator(Container *pContainer) 
          : m_pContainer(pContainer) {}
