@@ -13,6 +13,29 @@ struct Trait1
     using CompareFunc = bool (*)(const T &, const T &);
 };
 
+template <typename Container>
+class ArrayIterator
+{ private:
+    using value_type  = typename Container::value_type;
+
+    Container  *m_pContainer = nullptr;
+    value_type *m_data       = nullptr;
+    size_t      m_pos        = -1;
+    
+  public:
+    ArrayIterator(Container *pContainer) 
+         : m_pContainer(pContainer) {}
+    virtual ~ArrayIterator(){};
+    ArrayIterator &operator++();
+    bool operator!=(ArrayIterator<Container> &another){
+        return m_pContainer != another.m_pContainer ||
+               m_pos        != another.m_pos;         
+    }
+    value_type &operator*(){
+      return m_data[m_pos];
+    }
+};
+
 template <typename Traits>
 class CArray {
     using value_type  = typename Traits::T;
@@ -24,7 +47,7 @@ class CArray {
 
   public:
     CArray(size_t size);
-    ~CArray();
+    virtual ~CArray();
 
     void push_back(value_type value);
     value_type &operator[](size_t index);
