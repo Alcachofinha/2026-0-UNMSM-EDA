@@ -6,10 +6,18 @@ using namespace std;
 #include <stddef.h>
 #include "../algorithms/sorting.h"
 
-template <typename T>
+template <typename _T>
+struct Trait1
+{
+    using T = _T;
+
+};
+
+template <typename Traits>
 class CArray {
-    using value_type = T;
-    using CompareFunc = bool (*)(const T &, const T &);
+    using value_type = typename Traits::T;
+    
+    using CompareFunc = bool (*)(const value_type &, const value_type &);
 
   private:
     size_t m_capacity = 0, m_last = 0;
@@ -33,16 +41,16 @@ class CArray {
     }
 };
 
-template <typename T>
-CArray<T>::CArray(size_t size) {
+template <typename Traits>
+CArray<Traits>::CArray(size_t size) {
   m_capacity = size;
   m_data = new value_type[size];
 }
-template <typename T>
-CArray<T>::~CArray() { delete[] m_data; }
+template <typename Traits>
+CArray<Traits>::~CArray() { delete[] m_data; }
 
-template <typename T>
-typename CArray<T>::value_type &CArray<T>::operator[](size_t index) {
+template <typename Traits>
+typename CArray<Traits>::value_type &CArray<Traits>::operator[](size_t index) {
     // cout << "XResizing from " << m_capacity << " to at least " << index + 5 << endl;
     if (index > m_capacity) {
       cout << "Resizing from " << m_capacity << " to at least " << index + 5 << endl;
@@ -54,15 +62,15 @@ typename CArray<T>::value_type &CArray<T>::operator[](size_t index) {
     return m_data[index];
 }
 
-template <typename T>
-void CArray<T>::push_back(value_type value) {
+template <typename Traits>
+void CArray<Traits>::push_back(value_type value) {
     if (m_last >= m_capacity)
       resize();
     m_data[m_last++] = value;
 }
 
-template <typename T>
-void CArray<T>::resize(size_t delta) {
+template <typename Traits>
+void CArray<Traits>::resize(size_t delta) {
     size_t new_capacity = m_capacity + delta;
     value_type *new_data = new value_type[new_capacity];
     for (auto i = 0; i < m_capacity; ++i)
@@ -72,13 +80,13 @@ void CArray<T>::resize(size_t delta) {
     m_capacity = new_capacity;
 }
 
-template <typename T>
-void CArray<T>::sort( CompareFunc pComp ){
+template <typename Traits>
+void CArray<Traits>::sort( CompareFunc pComp ){
     BurbujaRecursivo(m_data, m_last, pComp);
 }
 
-template <typename T>
-ostream &operator<<(ostream &os, CArray<T> &arr) {
+template <typename Traits>
+ostream &operator<<(ostream &os, CArray<Traits> &arr) {
   os << "CArray: size = " << arr.getSize() << endl;
   os << "[";
   for (auto i = 0; i < arr.getSize(); ++i)

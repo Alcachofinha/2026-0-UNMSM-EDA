@@ -10,7 +10,8 @@ using T1 = int;
 
 void DemoArray() {
     const int N = 5;
-    CArray<T1> arr1(N);
+    //  /using 
+    CArray< Trait1<T1> > arr1(N);
     for (auto i = 0; i < N; ++i)
       arr1.push_back(i * 10);
     cout << "First part finished" << endl;
@@ -43,7 +44,7 @@ void DemoArray() {
     cout << arr1 << endl;
 
     using T2 = string;
-    CArray<T2> arr2(N);
+    CArray< Trait1<T2> > arr2(N);
     arr2[2] = "UNMSM";
     arr2[4] = "FC";
     cout << arr2 <<endl;
