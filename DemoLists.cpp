@@ -10,3 +10,4 @@ void DemoLists(){
     l1.Insert(30, 3);
     cout << l1 << endl;
 }
+
