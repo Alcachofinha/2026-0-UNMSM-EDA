@@ -6,4 +6,5 @@
 
 void DemoLists();
 void DemoDoubleLinkedLists();
+void DemoCircularDoubleLinkedLists();
 #endif // __LISTS_H__

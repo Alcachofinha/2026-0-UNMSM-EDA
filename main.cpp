@@ -10,6 +10,7 @@ int main() {
     // DemoUtil();
     // DemoPointers1();
     // DemoArray();
-    DemoDoubleLinkedLists();
+    //DemoDoubleLinkedLists();
+    DemoCircularDoubleLinkedLists();
     return 0;
 }
