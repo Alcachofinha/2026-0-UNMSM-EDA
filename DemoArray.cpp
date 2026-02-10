@@ -8,7 +8,7 @@ using namespace std;
 
 using T1 = int;
 
-bool Mult7(T1 &elem){
+  static bool Mult7(T1 &elem){
   return elem%7 == 0;
 }
 

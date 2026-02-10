@@ -3,7 +3,9 @@
 #include "../general/types.h"
 
 #include "linkedlist.h"
+#include "circularlinkedlist.h"
 
-void DemoLists();
+//void DemoLists();
+void DemoCircularLinkedLists();
 
 #endif // __LISTS_H__

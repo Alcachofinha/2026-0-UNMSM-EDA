@@ -5,7 +5,7 @@
 #include <stdexcept>    // std::out_of_range
 using namespace std;
 
-#include "containers/lists.h"
+#include "containers/circularlinkedlist.h"
 #include "variadic-util.h"
 #include "foreach.h"
 
@@ -20,40 +20,40 @@ void PrintList(Q &elem){
     cout << elem << ",";
 }
 
-// Predicados para FirstThat (hazlos static o en namespace anónimo para no chocar con DemoArray.cpp)
-static bool Mult7_List(T1 &x){
+// Predicados para FirstThat
+static bool Mult7_Circ(T1 &x){
     return x % 7 == 0;
 }
-static bool GreaterThan_List(T1 &x, T1 limit){
+static bool GreaterThan_Circ(T1 &x, T1 limit){
     return x > limit;
 }
-static bool DivisibleBy_List(T1 &x, T1 d){
+static bool DivisibleBy_Circ(T1 &x, T1 d){
     return d != 0 && (x % d == 0);
 }
 
 // Para Foreach (miembro)
-static void AddConst_List(T1 &x, T1 k){
+static void AddConst_Circ(T1 &x, T1 k){
     x += k;
 }
 } // namespace
 
-void DemoLists(){
-    cout << "\n=== DemoCLinkedList started ===\n";
+void DemoCircularLinkedLists(){
+    cout << "\n=== DemoCCircularLinkedList started ===\n";
 
     // ------------------------------------------------------------
     // [A] Base: Insert + push_back + operator<< + archivo (<<)
     // ------------------------------------------------------------
     cout << "\n[A] Base: Insert + push_back + operator<< + archivo\n";
-    CLinkedList< AscendingTrait<T1> > a;
+    CCircularLinkedList< AscendingTrait<T1> > a;
     a.Insert(20,5);
     a.Insert(30,3);
     a.push_back(40,4); // push_back engancha al final (independiente del orden)
     cout << "Ready to print a:\n" << a << endl;
 
-    ofstream of("list_base.txt");
+    ofstream of("circular_list_base.txt");
     of << a;
     of.close();
-    cout << "list_base.txt written\n";
+    cout << "circular_list_base.txt written\n";
 
     // ------------------------------------------------------------
     // [B] Destructor: prueba por scope
@@ -61,7 +61,7 @@ void DemoLists(){
     cout << "\n[B] Destructor: prueba por scope\n";
     cout << "Antes del scope\n";
     {
-        CLinkedList< AscendingTrait<T1> > tmp;
+        CCircularLinkedList< AscendingTrait<T1> > tmp;
         tmp.Insert(20,5);
         tmp.Insert(30,3);
         tmp.push_back(40,4);
@@ -73,7 +73,7 @@ void DemoLists(){
     // [C] clear(): vaciar y no fallar en double clear
     // ------------------------------------------------------------
     cout << "\n[C] clear(): debe vaciar y no fallar doble\n";
-    CLinkedList< AscendingTrait<T1> > c;
+    CCircularLinkedList< AscendingTrait<T1> > c;
     c.Insert(10,1);
     c.Insert(20,2);
     cout << "Antes clear: " << c;
@@ -86,7 +86,7 @@ void DemoLists(){
     // [D] Copy constructor: deep copy
     // ------------------------------------------------------------
     cout << "\n[D] Copy constructor: b(a) debe ser deep copy\n";
-    CLinkedList< AscendingTrait<T1> > b(a);
+    CCircularLinkedList< AscendingTrait<T1> > b(a);
     cout << "Original a: " << a;
     cout << "Copy b(a):  " << b;
     a.push_back(99,9);
@@ -97,7 +97,7 @@ void DemoLists(){
     // [E] Copy assignment: operator=(const&)
     // ------------------------------------------------------------
     cout << "\n[E] Test operator= (assign)\n";
-    CLinkedList< AscendingTrait<T1> > e1;
+    CCircularLinkedList< AscendingTrait<T1> > e1;
     e1.Insert(1,1); e1.Insert(2,2);
     cout << "Before assign:\n";
     cout << "a: " << a;
@@ -119,15 +119,15 @@ void DemoLists(){
     // [F] Move constructor + Move assignment
     // ------------------------------------------------------------
     cout << "\n[F] Test Move Constructor + Move Assignment\n";
-    CLinkedList< AscendingTrait<T1> > msrc;
+    CCircularLinkedList< AscendingTrait<T1> > msrc;
     msrc.Insert(10,1); msrc.Insert(20,2); msrc.Insert(30,3);
     cout << "Before move, msrc: " << msrc;
 
-    CLinkedList< AscendingTrait<T1> > mdst(std::move(msrc));
+    CCircularLinkedList< AscendingTrait<T1> > mdst(std::move(msrc));
     cout << "After move ctor, mdst: " << mdst;
     cout << "After move ctor, msrc should be empty: " << msrc;
 
-    CLinkedList< AscendingTrait<T1> > m2;
+    CCircularLinkedList< AscendingTrait<T1> > m2;
     m2.Insert(1,1); m2.Insert(2,2);
     cout << "Before move assign, m2: " << m2;
     m2 = std::move(mdst);
@@ -138,7 +138,7 @@ void DemoLists(){
     // [G] operator[] con excepción
     // ------------------------------------------------------------
     cout << "\n[G] Test operator[]\n";
-    CLinkedList< AscendingTrait<T1> > idx;
+    CCircularLinkedList< AscendingTrait<T1> > idx;
     idx.Insert(10,1);
     idx.Insert(20,2);
     idx.Insert(30,3);
@@ -160,13 +160,13 @@ void DemoLists(){
     // [H] Traits (Ascending / Descending) usando Insert()
     // ------------------------------------------------------------
     cout << "\n[H] Test Traits (Ascending/Descending)\n";
-    CLinkedList< AscendingTrait<T1> > asc;
+    CCircularLinkedList< AscendingTrait<T1> > asc;
     asc.Insert(20,1);
     asc.Insert(10,2);
     asc.Insert(30,3);
     cout << "Ascending (expected 10,20,30): " << asc;
 
-    CLinkedList< DescendingTrait<T1> > desc;
+    CCircularLinkedList< DescendingTrait<T1> > desc;
     desc.Insert(20,1);
     desc.Insert(10,2);
     desc.Insert(30,3);
@@ -176,7 +176,7 @@ void DemoLists(){
     // [I] Forward iterator: begin/end + ::Foreach + range-for
     // ------------------------------------------------------------
     cout << "\n[I] Test Forward Iterator (begin/end)\n";
-    CLinkedList< AscendingTrait<T1> > it;
+    CCircularLinkedList< AscendingTrait<T1> > it;
     it.Insert(20,1);
     it.Insert(10,2);
     it.Insert(30,3);
@@ -194,20 +194,20 @@ void DemoLists(){
     // [J] FirstThat (variadic, como profe)
     // ------------------------------------------------------------
     cout << "\n[J] Test FirstThat (variadic, como profe)\n";
-    CLinkedList< AscendingTrait<T1> > ft;
+    CCircularLinkedList< AscendingTrait<T1> > ft;
     ft.Insert(10,2);
     ft.Insert(14,4);
     ft.Insert(20,1);
     ft.Insert(30,3);
     cout << "List: " << ft;
 
-    auto i1 = ft.FirstThat(&Mult7_List);
+    auto i1 = ft.FirstThat(&Mult7_Circ);
     if(i1 != ft.end()) cout << "First mult of 7: " << *i1 << endl;
 
-    auto i2 = ft.FirstThat(&GreaterThan_List, 25);
+    auto i2 = ft.FirstThat(&GreaterThan_Circ, 25);
     if(i2 != ft.end()) cout << "First > 25: " << *i2 << endl;
 
-    auto i3 = ft.FirstThat(&DivisibleBy_List, 5);
+    auto i3 = ft.FirstThat(&DivisibleBy_Circ, 5);
     if(i3 != ft.end()) cout << "First divisible by 5: " << *i3 << endl;
 
     auto i4 = ft.FirstThat([](T1 &x, T1 target){ return x == target; }, 10);
@@ -217,26 +217,26 @@ void DemoLists(){
     // [K] Foreach (miembro) - modifica elementos
     // ------------------------------------------------------------
     cout << "\n[K] Foreach (member)\n";
-    CLinkedList< AscendingTrait<T1> > fx;
+    CCircularLinkedList< AscendingTrait<T1> > fx;
     fx.Insert(10,1);
     fx.Insert(20,2);
     fx.Insert(30,3);
     cout << "Before Foreach(AddConst,+5): " << fx;
-    fx.Foreach(&AddConst_List, 5);
+    fx.Foreach(&AddConst_Circ, 5);
     cout << "After  Foreach(AddConst,+5): " << fx;
 
     // ------------------------------------------------------------
     // [L] operator>> (leer) + move assignment “commit”
     // ------------------------------------------------------------
     cout << "\n[L] operator>> (read from file)\n";
-    CLinkedList< AscendingTrait<T1> > read;
-    ifstream inf("list_base.txt");
+    CCircularLinkedList< AscendingTrait<T1> > read;
+    ifstream inf("circular_list_base.txt");
     if(!inf){
-        cout << "No se pudo abrir list_base.txt\n";
+        cout << "No se pudo abrir circular_list_base.txt\n";
     }else{
         inf >> read;
-        cout << "Read list_base.txt -> read: " << read;
+        cout << "Read circular_list_base.txt -> read: " << read;
     }
 
-    cout << "\n=== DemoCLinkedList finished ===\n";
-    }
+    cout << "\n=== DemoCCircularLinkedList finished ===\n";
+}
