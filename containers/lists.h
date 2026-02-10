@@ -5,5 +5,5 @@
 #include "linkedlist.h"
 
 void DemoLists();
-
+void DemoDoubleLinkedLists();
 #endif // __LISTS_H__
