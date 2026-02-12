@@ -3,7 +3,9 @@
 #include "../general/types.h"
 
 #include "linkedlist.h"
+#include "stack.h"
+
 
 void DemoLists();
-
+void DemoStacks();
 #endif // __LISTS_H__
