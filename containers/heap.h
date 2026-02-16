@@ -90,16 +90,18 @@ public:
         return os;
     }
     friend std::istream& operator>>(std::istream& is, CHeap<Traits>& heap){
-        std::lock_guard<std::recursive_mutex> lock(heap.m_mtx);
-        Size n = 0;
-        is >> n;
-        value_type x;
-        while (is >> x){
-            heap.Push(x);
-        }
-    is.clear(); 
+    std::lock_guard<std::recursive_mutex> lock(heap.m_mtx);
+
+    Size n = 0;
+    if(!(is >> n)) return is;
+
+    value_type x;
+    for (Size i = 0; i < n; ++i){
+        if(!(is >> x)) break;
+        heap.Push(x); 
+    }
     return is;
-}
+    }
 
     private:
     void HeapifyUp();
