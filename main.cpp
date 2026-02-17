@@ -11,6 +11,6 @@ int main() {
     // DemoUtil();
     // DemoPointers1();
     // DemoArray();
-    DemoLists();
+    DemoBinaryTree();
     return 0;
 }
