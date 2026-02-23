@@ -1,82 +1,108 @@
 #include <iostream>
 #include <fstream>
-#include "containers/lists.h"
+#include <string>
+#include <utility>
+#include "containers/heap.h"
 
 using namespace std;
 
-void DemoHeap(){
+void DemoHeap() {
+    cout << "\n==================== DEMO HEAP ====================\n";
 
-    cout << "\n===== DEMO HEAP (MIN/MAX) =====\n";
+    cout << "\n[1] Construccion de MinHeap<int>\n";
+    CHeap<MinHeapTrait<T1>> heapMinA(3);
 
-    // -------------------------
-    // 1) MIN HEAP
-    // -------------------------
-    cout << "\n[1] MinHeap\n";
-    CHeap<MinHeapTrait<int>> hmin;
+    heapMinA.Push(18);
+    heapMinA.Push(5);
+    heapMinA.Push(11);
+    heapMinA.Push(2);
+    heapMinA.Push(9);
 
-    hmin.Push(50);
-    hmin.Push(10);
-    hmin.Push(30);
-    hmin.Push(5);
+    cout << "heapMinA:\n" << heapMinA << endl;
+    cout << "Top de heapMinA: " << heapMinA.top() << endl;
 
-    cout << "Heap: " << hmin << "\n";
-    cout << "Top:  " << hmin.top() << "\n";
+    cout << "\n[2] Pop() sobre MinHeap\n";
+    cout << "Pop #1 -> " << heapMinA.Pop() << endl;
+    cout << "Pop #2 -> " << heapMinA.Pop() << endl;
+    cout << "heapMinA despues de 2 Pop():\n" << heapMinA << endl;
+    cout << "Nuevo top: " << heapMinA.top() << endl;
 
-    cout << "Pop:  " << hmin.Pop() << "\n";
-    cout << "Heap: " << hmin << "\n";
+    cout << "\n[3] Construccion de MaxHeap<int>\n";
+    CHeap<MaxHeapTrait<T1>> heapMaxA(2);
 
-    // -------------------------
-    // 2) MAX HEAP
-    // -------------------------
-    cout << "\n[2] MaxHeap\n";
-    CHeap<MaxHeapTrait<int>> hmax;
+    heapMaxA.Push(14);
+    heapMaxA.Push(30);
+    heapMaxA.Push(7);
+    heapMaxA.Push(26);
+    heapMaxA.Push(19);
 
-    hmax.Push(50);
-    hmax.Push(10);
-    hmax.Push(30);
-    hmax.Push(100);
+    cout << "heapMaxA:\n" << heapMaxA << endl;
+    cout << "Top de heapMaxA: " << heapMaxA.top() << endl;
 
-    cout << "Heap: " << hmax << "\n";
-    cout << "Top:  " << hmax.top() << "\n";
+    cout << "\n[4] Copy constructor (MaxHeap)\n";
+    CHeap<MaxHeapTrait<T1>> heapMaxB(heapMaxA);
+    cout << "heapMaxB (copia de heapMaxA):\n" << heapMaxB << endl;
 
-    cout << "Pop:  " << hmax.Pop() << "\n";
-    cout << "Heap: " << hmax << "\n";
+    cout << "\n[5] Copy assignment (MinHeap)\n";
+    CHeap<MinHeapTrait<T1>> heapMinB(1);
+    heapMinB.Push(100);
+    heapMinB.Push(50);
 
-    // -------------------------
-    // 3) ARCHIVO (operator>>)
-    // Formato: n seguido de n valores
-    // -------------------------
-    cout << "\n[3] Archivo\n";
-    {
-        ofstream out("heap_demo.txt");
-        out << "5 20 60 10 40 5";   // n=5, luego 5 valores
+    cout << "heapMinB antes de asignar:\n" << heapMinB << endl;
+
+    heapMinB = heapMinA;
+
+    cout << "heapMinB despues de copiar heapMinA:\n" << heapMinB << endl;
+
+    cout << "\n[6] Move constructor (MinHeap)\n";
+    CHeap<MinHeapTrait<T1>> heapMinC(std::move(heapMinB));
+    cout << "heapMinC (movido desde heapMinB):\n" << heapMinC << endl;
+    cout << "heapMinB despues del move:\n" << heapMinB << endl;
+
+    cout << "\n[7] Move assignment (MaxHeap)\n";
+    CHeap<MaxHeapTrait<T1>> heapMaxC;
+    heapMaxC = std::move(heapMaxB);
+
+    cout << "heapMaxC (movido desde heapMaxB):\n" << heapMaxC << endl;
+    cout << "heapMaxB despues del move:\n" << heapMaxB << endl;
+    cout << "heapMaxB empty()? " << (heapMaxB.empty() ? "SI" : "NO") << endl;
+
+    cout << "\n[8] Lectura desde archivo con operator>>\n";
+    ifstream fin("Heap.txt");
+    if (!fin.is_open()) {
+        ofstream fout("Heap.txt");
+        fout << "8 21 4 17 33 9 1 28 12";
+        fout.close();
+        fin.open("Heap.txt");
     }
 
-    CHeap<MinHeapTrait<int>> hfile;
-    ifstream in("heap_demo.txt");
-    if (!in.is_open()){
-        cout << "No se pudo abrir heap_demo.txt\n";
-    }else{
-        in >> hfile;
-        in.close();
-        cout << "Heap leido: " << hfile << "\n";
-        cout << "Top:       " << hfile.top() << "\n";
-    }
+    CHeap<MinHeapTrait<T1>> heapArchivoMin;
+    fin >> heapArchivoMin;
+    fin.close();
 
-    // -------------------------
-    // 4) COPY + MOVE
-    // -------------------------
-    cout << "\n[4] Copy + Move\n";
+    cout << "heapArchivoMin (desde Heap.txt):\n" << heapArchivoMin << endl;
+    cout << "Top heapArchivoMin: " << heapArchivoMin.top() << endl;
 
-    CHeap<MinHeapTrait<int>> copia(hfile);
-    copia.Push(-999);
+    fin.open("Heap.txt");
+    CHeap<MaxHeapTrait<T1>> heapArchivoMax;
+    fin >> heapArchivoMax;
+    fin.close();
 
-    cout << "Original: " << hfile << "\n";
-    cout << "Copia:    " << copia << "\n";
+    cout << "heapArchivoMax (desde Heap.txt):\n" << heapArchivoMax << endl;
+    cout << "Top heapArchivoMax: " << heapArchivoMax.top() << endl;
 
-    CHeap<MinHeapTrait<int>> movido(std::move(hfile));
-    cout << "Movido:   " << movido << "\n";
-    cout << "Original vacio? " << (hfile.empty() ? "SI" : "NO") << "\n";
+    cout << "\n[9] Heap<string> (MinHeap)\n";
+    CHeap<MinHeapTrait<string>> heapStr(4);
 
-    cout << "\n--- FIN DEMO ---\n";
+    heapStr.Push("lima");
+    heapStr.Push("arequipa");
+    heapStr.Push("cusco");
+    heapStr.Push("piura");
+    heapStr.Push("tacna");
+
+    cout << "heapStr:\n" << heapStr << endl;
+    cout << "Top heapStr: " << heapStr.top() << endl;
+    cout << "Pop heapStr -> " << heapStr.Pop() << endl;
+    cout << "heapStr despues de Pop():\n" << heapStr << endl;
+
 }
