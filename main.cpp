@@ -11,6 +11,8 @@ int main() {
     // DemoUtil();
     // DemoPointers1();
     // DemoArray();
+    DemoBinaryTree();
+    cout<<"AHORA VAMOS CON AVL"<<endl;
     DemoAVL();
     return 0;
 }
