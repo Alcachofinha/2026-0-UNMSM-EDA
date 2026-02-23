@@ -4,7 +4,9 @@
 
 #include "linkedlist.h"
 #include "binarytree.h"
+#include "binarytreeAVL.h"
 
 void DemoBinaryTree();
+void DemoAVL();
 
 #endif // __LISTS_H__

@@ -25,7 +25,10 @@ struct TreeTraitDescending {
 };
 
 template <typename Traits>
+class CBinaryTreeAVL;
+template <typename Traits>
 class NodeBinaryTree{
+    friend CBinaryTreeAVL<Traits>;
 public:
     using value_type = typename Traits::value_type;
     using Node       = NodeBinaryTree<Traits>;
@@ -35,6 +38,7 @@ private:
     ref_type   m_ref;
     Node      *m_pParent = nullptr;
     Node      *m_pChild[2] = {nullptr, nullptr};
+    Size       m_height = 1; // para AVL
 
 public:
     NodeBinaryTree(){}
@@ -48,10 +52,13 @@ public:
     ref_type   &GetRefRef  ()       { return m_ref; }
 
     Node       *GetParent  () const { return m_pParent; }
-    Node      *&GetParentRef()       { return m_pParent; }
+    Node      *&GetParentRef()      { return m_pParent; }
 
     Node       *GetChild   (size_t branch) const { return m_pChild[branch]; }
     Node      *&GetChildRef(size_t branch)       { return m_pChild[branch]; }
+
+    Size        GetHeight() const { return m_height; }
+    Size       &GetHeightRef()    { return m_height; }
 };
 template <typename Container>
 class BinaryTreeForwardIterator{
@@ -152,7 +159,7 @@ public:
     }
 
     BinaryTreeBackwardIterator &operator++(){
-        if(!m_pCurrent) return *this; // ya estamos al final
+        if(!m_pCurrent) return *this; 
 
         // Si hay hijo izquierdo, bajamos por su rama derecha
         Node *pLeft = m_pCurrent->GetChild(0);
@@ -164,7 +171,7 @@ public:
         } else {
             m_pCurrent = nullptr; // llegamos al final
         }
-        return *this; // para permitir ++it en bucles
+        return *this; 
     }
 };  
 template <typename Traits>
@@ -174,7 +181,7 @@ public:
     using Node        = NodeBinaryTree<Traits>;     
     using CompareFunc = typename Traits::CompareFunc;
 
-private:
+protected:
     mutable std::mutex m_mutex;
     Node       *m_pRoot = nullptr;
     size_t      m_size  = 0;
@@ -278,7 +285,7 @@ private:
     
     Node *internal_read(std::istream &is, Node *pParent){
         std::string tok;
-        if(!(is>>tok)) return nullptr; // no hay más datos
+        if(!(is>>tok)) return nullptr; 
 
         if(tok == "#") return nullptr; // nodo nulo
 
