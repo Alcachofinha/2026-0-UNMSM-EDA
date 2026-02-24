@@ -3,16 +3,15 @@
 #include "pointers.h"
 #include "containers/array.h"
 #include "containers/lists.h"
+#include "containers/BTree.h"
 
-// g++ -std=c++17 -Wall -g -pthread main.cpp -o main
+void DemoBTree();   // <-- prototipo (afuera)
 
 int main() {
     std::cout << "Hello EDA-UNMSM!" << std::endl;
-    // DemoUtil();
-    // DemoPointers1();
-    // DemoArray();
-    DemoBinaryTree();
-    cout<<"AHORA VAMOS CON AVL"<<endl;
-    DemoAVL();
+
+    void DemoBTree();  // declaración
+    DemoBTree();       // llamada
+
     return 0;
 }
