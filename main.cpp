@@ -5,13 +5,10 @@
 #include "containers/lists.h"
 #include "containers/BTree.h"
 
-void DemoBTree();   // <-- prototipo (afuera)
+void DemoBTree();
 
 int main() {
     std::cout << "Hello EDA-UNMSM!" << std::endl;
-
-    void DemoBTree();  // declaración
-    DemoBTree();       // llamada
-
+    DemoBTree();
     return 0;
 }

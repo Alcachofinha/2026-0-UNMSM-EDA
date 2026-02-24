@@ -782,22 +782,28 @@ void CBTreePage<keyType, ObjIDType>::Print(ostream & os)
 template <typename keyType, typename ObjIDType>
 void CBTreePage<keyType, ObjIDType>::Create()
 {
-       Reset();
-       m_Keys.resize(m_MaxKeys+1);
-       m_SubPages.resize(m_MaxKeys+2, NULL);
-       m_KeyCount = 0;
-       m_MinKeys  = 2 * m_MaxKeys/3;
+        m_Keys.resize(m_MaxKeys+1);
+        m_SubPages.resize(m_MaxKeys+2, NULL);
+        m_KeyCount = 0;
+        m_MinKeys  = 2 * m_MaxKeys/3;
 }
 
 template <typename keyType, typename ObjIDType>
 void CBTreePage<keyType, ObjIDType>::Reset()
 {
-       for( int i = 0 ; i <= m_KeyCount ; i++ )
-        {     
-                delete m_SubPages[i];
-                m_SubPages[i] = NULL;
-        }
-        clear();
+       if( !m_SubPages.empty() )
+       {
+              int limit = m_KeyCount;
+              if( limit >= (int)m_SubPages.size() )
+                     limit = (int)m_SubPages.size() - 1;
+
+              for( int i = 0 ; i <= limit ; i++ )
+              {
+                     delete m_SubPages[i];
+                     m_SubPages[i] = NULL;
+              }
+       }
+       clear();
 }
 
 template <typename keyType, typename ObjIDType>
